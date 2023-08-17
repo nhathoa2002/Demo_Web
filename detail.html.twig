@@ -1,23 +1,157 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
 
-{% block title %} Delivery detail {% endblock %}
-
+{% block title %}Order Storage
+{% endblock %}
+{% block navbar %}{% endblock %}
 {% block body %}
-<div class="container col-md-6 mt-5">
-   <div class="row">
-      <div class="col">
-         <img src="{{asset('images/delivery/' ~ delivery.image)}}" width="300" height="400">  
-      </div>
-      <div class="col text-center mt-3">
-         <h1 class="text text-success">{{ delivery.name }}</h1>
-         <h2>Description: {{ delivery.description }}</h2>
-         <h2>Orders: </h2>
-         {# {% for order in delivery.orders %}
-            <a href="{{ path('order_detail', {'id' : order.id })}}">
-              <h4 class="text text-primary">{{ order.id }}</h4> 
-            </a> 
-         {% endfor %} #}
-      </div>
-   </div>
-</div>
+
+	<style>
+		/* special section in user page */
+
+		#special {
+			margin-top: 5%;
+		}
+		.special-img span {
+			top: 20px;
+			right: 20px;
+		}
+
+		.special-list .btn {
+			padding: 8px 20px !important;
+		}
+
+		.special-img img {
+			-webkit-transition: all 0.3s ease;
+			-o-transition: all 0.3s ease;
+			transition: all 0.3s ease;
+		}
+
+		.special-img:hover img {
+			-webkit-transform: scale(1.2);
+			-ms-transform: scale(1.2);
+			transform: scale(1.2);
+		}
+
+		{
+			# dropdown #
+		}
+
+		.dropdown {
+			float: right;
+		}
+
+		.title h2 {
+			margin-left: 15%
+		}
+		@import url('https://fonts.googleapis.com/css2?family=Roboto &display=swap');
+
+		body {
+			background-color: #eee;
+			font-family: 'Roboto', sans-serif;
+
+		}
+
+		.main {
+			border-collapse: separate !important;
+			border-spacing: 0 11px !important
+		}
+
+		tr {
+			border: 1px solid #eee
+		}
+
+		.head th {
+			font-weight: 500
+		}
+
+		tr:nth-child(3) {
+			border: solid thin
+		}
+
+		.form-check-input:focus {
+			border-color: #8bbafe;
+			outline: 0;
+			box-shadow: none
+		}
+
+		.btn {
+			height: 27px;
+			line-height: 11px;
+			color: #fff
+		}
+
+		.form-check-input {
+			width: 1.15em;
+			height: 1.15em;
+			margin-top: 3px
+		}
+
+		.btn:focus {
+			color: #fff;
+			box-shadow: none !important
+		}
+
+		.order-color {
+			color: blue
+		}
+
+	</style>
+
+	{% if is_granted('ROLE_USER') %}
+
+		<body>
+			<div class="container col-md-4 mt-5">
+				{% for flash in app.flashes('Success') %}
+					<p class="alert alert-primary">{{flash}}</p>
+				{% endfor %}
+				{% for flash in app.flashes('Error') %}
+					<p class="alert alert-danger">{{flash}}</p>
+				{% endfor %}
+			</div>
+
+
+			<div class="container mt-5" style="padding: 150px 0">
+				<h1 class="text text-primary text-center">Detail Information of Order {{order.id}}</h1>
+				<table class="table table-borderless main">
+					<thead>
+						<tr class="head">
+							<th scope="col" class="ml-2">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+								</div>
+							</th>
+							<th scope="col">Product Name</th>
+							<th scope="col">Current Price</th>
+							<th scope="col">Quantity</th>
+							<th scope="col">Menu</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for order in detail %}
+							<tr class="rounded bg-white">
+								<th scope="row">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+									</div>
+								</th>
+								<td class="order-color">
+										<a href="{{path('product_detail', {'id':order.id})}}">{{order.productName}}</a>								
+								</td>
+								<td class="d-flex align-items-center">
+									$
+									<span class="ml-2">{{order.price}}</span>
+								</td>
+								<td>{{order.quantity}}</td>
+								<td>
+									<a href="{{path('Order_delete', {'id':order.id})}}" class="btn btn-primary btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+										Do nothing
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</body>
+	{% endif %}
 {% endblock %}

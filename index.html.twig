@@ -1,560 +1,184 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!
+{% block title %}Order List
 {% endblock %}
 
 {% block body %}
-	{# page for admin #}
-	{% if is_granted('ROLE_ADMIN') %}
+
 	<style>
-.profile{
-    margin-top:15%;
-}
-.profile .container {
-  width: 400px;
-  margin: 120px auto 120px;
-  background-color: #eeeeee;
-  padding: 0 20px 20px;
-  border-radius: 6px;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.075);
-  -webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.075);
-  -moz-box-shadow: 0 2px 5px rgba(0,0,0,0.075);
-  text-align: center;
-}
-.profile .container:hover .avatar-flip {
-  transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
-}
-.profile .container:hover .avatar-flip img:first-child {
-  opacity: 0;
-}
-.profile .container:hover .avatar-flip img:last-child {
-  opacity: 1;
-}
-.avatar-flip {
-  border-radius: 100px;
-  overflow: hidden;
-  height: 150px;
-  width: 150px;
-  position: relative;
-  margin: auto;
-  top: -60px;
-  transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  box-shadow: 0 0 0 13px #f0f0f0;
-  -webkit-box-shadow: 0 0 0 13px #f0f0f0;
-  -moz-box-shadow: 0 0 0 13px #f0f0f0;
-}
-.avatar-flip img {
-  position: absolute;
-  left: 0;
-  top: 0;
-  border-radius: 100px;
-  transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-}
-.avatar-flip img:first-child {
-  z-index: 1;
-}
-.avatar-flip img:last-child {
-  z-index: 0;
-  transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
-  opacity: 0;
-}
-.profile h2 {
-  font-size: 32px;
-  font-weight: 600;
-  margin-bottom: 15px;
-  color: #333;
-  text-transform: uppercase;
-}
-.profile h4 {
-  font-size: 13px;
-  color: #00baff;
-  letter-spacing: 1px;
-  margin-bottom: 25px
-}
-.profile p {
-  font-size: 16px;
-  line-height: 26px;
-  margin-bottom: 20px;
-  color: #666;
-}
-</style>
-<div class="profile">
-    <div class="container">
-    <div class="avatar-flip">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwD89zs3pxlYJI4G48DyAW-zBZ-ZCOO52zofwvQnHrZrJ8sCnTx5_UD9P69IvQAayW0C8&usqp=CAU" height="150" width="150">
-        <img src="http://i1112.photobucket.com/albums/k497/animalsbeingdicks/abd-3-12-2015.gif~original" height="150" width="150">
-    </div>
-    <h2>{{app.user.username}}</h2>
-    <h4>{{app.user.gmail}}</h4>
-    <p>Gender: {{app.user.Gender}}</p>
-    <p>Contact: {{app.user.phonenumber}}</p>
-    </div>
-</div>
-	{% else %}
-	<style>
-		/* header */
+		/* special section in user page */
 
-		#header {
-			background: url('https://images.macrumors.com/t/aguJT3V2LHkU96Satz-IPm9aUis=/2244x/article-new/2022/01/iPhone-14-Mock-Pill-Blue-Feature.jpg') top/cover no-repeat;
+		#special {
+			margin-top: 5%;
 		}
-
-		.carousel-inner h1 {
-			font-size: 60px;
-			font-family: var(--lg-font);
-		}
-
-		.carousel-item .btn {
-			border-color: #fff !important;
-		}
-
-		.carousel-item .btn:hover {
-			border-color: var(--pink) !important;
-		}
-
-
-		/* title */
-
-		.title h2::before {
-			position: absolute;
-			content: "";
-			width: 4px;
-			height: 50px;
-			background-color: var(--pink);
-			left: -20px;
-			top: 50%;
-			-webkit-transform: translateY(-50%);
-			-ms-transform: translateY(-50%);
-			transform: translateY(-50%);
-		}
-
-
-		/* collection */
-
-		.active-filter-btn {
-			background-color: var(--pink) !important;
-			color: #fff !important;
-			border-color: var(--pink) !important;
-		}
-
-		.filter-button-group .btn:hover {
-			color: #fff !important;
-		}
-
-		.collection-img span {
+		.special-img span {
 			top: 20px;
 			right: 20px;
-			width: 46px;
-			height: 46px;
-			border-radius: 50%;
 		}
 
-
-		/* offers */
-
-		#offers {
-			background: url('https://images.samsung.com/vn/smartphones/galaxy-s21-ultra-5g/images/galaxy-s21-ultra-5g-share-image.jpg') center/cover no-repeat;
+		.special-list .btn {
+			padding: 8px 20px !important;
 		}
 
-		#offers .row {
-			min-height: 60vh;
+		.special-img img {
+			-webkit-transition: all 0.3s ease;
+			-o-transition: all 0.3s ease;
+			transition: all 0.3s ease;
 		}
 
-		.offers-content span {
-			font-size: 28px;
+		.special-img:hover img {
+			-webkit-transform: scale(1.2);
+			-ms-transform: scale(1.2);
+			transform: scale(1.2);
 		}
 
-		.offers-content h2 {
-			font-size: 60px;
-			font-family: var(--lg-font);
+		{
+			# dropdown #
 		}
 
-		.offers-content .btn {
-			border-color: transparent !important;
+		.dropdown {
+			float: right;
 		}
 
+		.title h2 {
+			margin-left: 15%
+		}
+		@import url('https://fonts.googleapis.com/css2?family=Roboto &display=swap');
 
-		/* about */
+		body {
+			background-color: #eee;
+			font-family: 'Roboto', sans-serif;
 
-		#about {
-			background-color: rgba(179, 179, 179, 0.05);
 		}
 
-
-		/* newsletter */
-
-		#newsletter {
-			background-color: rgba(179, 179, 179, 0.05);
+		.main {
+			border-collapse: separate !important;
+			border-spacing: 0 11px !important
 		}
 
-		#newsletter p {
-			max-width: 600px;
+		tr {
+			border: 1px solid #eee
 		}
 
-		#newsletter .input-group {
-			max-width: 500px;
+		.head th {
+			font-weight: 500
 		}
 
-		#newsletter .form-control {
-			border-top-left-radius: 25px;
-			border-bottom-left-radius: 25px;
+		tr:nth-child(3) {
+			border: solid thin
 		}
 
-		#newsletter .btn {
-			background-color: var(--pink);
+		.form-check-input:focus {
+			border-color: #8bbafe;
+			outline: 0;
+			box-shadow: none
+		}
+
+		.btn {
+			height: 27px;
+			line-height: 11px;
+			color: #fff
+		}
+
+		.form-check-input {
+			width: 1.15em;
+			height: 1.15em;
+			margin-top: 3px
+		}
+
+		.btn:focus {
 			color: #fff;
-			border-color: var(--pink);
+			box-shadow: none !important
 		}
 
-		#newsletter .btn:hover {
-			background-color: #000;
-			border-color: #000;
+		.order-color {
+			color: blue
 		}
 
-
-		.productz-item {
-			border: 1px solid rgb(219, 219, 219);
-		}
-
-		.productz-img {
-			position: relative;
-			overflow: hidden;
-		}
-
-		.btnz {
-			position: absolute;
-			left: 0;
-			bottom: -100%;
-			font-size: 15px;
-			font-weight: 300;
-			transition: all 0.3s ease-in-out;
-		}
-
-		.btnz a {
-			border: none;
-			background-color: rgb(39, 39, 39);
-			color: #fff;
-			transition: all 0.3s ease-in-out;
-		}
-
-		.btnz a:hover {
-			color: #fcb941;
-		}
-
-		.productz-img:hover .btnz {
-			bottom: 0;
-		}
-
-		.heart-icon {
-			position: absolute;
-			top: 16px;
-			right: 15px;
-			font-size: 18px;
-		}
-
-		.productz-type {
-			font-size: 13px;
-			opacity: 0.8;
-		}
-
-		.productz-name {
-			transition: all 0.3s ease-in-out;
-		}
-
-		.productz-name:hover {
-			color: #B3CDC0 !important;
-		}
-
-		.productz-price {
-			color: #fcb941;
-		}
-
-		.ratingz {
-			font-size: 13px;
-		}
 	</style>
-	<!-- header -->
-	<header id="header" class="vh-100 carousel slide" data-bs-ride="carousel" style="padding-top: 104px;">
-		<div class="container h-100 d-flex align-items-center carousel-inner">
-			<div class="text-center carousel-item active">
-				<h2 class="text-capitalize text-white">IPHONE 14</h2>
-				<h1 class="text-uppercase py-2 fw-bold text-white">Coming Soon</h1>
-				<a href="#" class="btn mt-3 text-uppercase">Order now</a>
-			</div>
-			<div class="text-center carousel-item">
-				<h2 class="text-capitalize text-white">best price & offer</h2>
-				<h1 class="text-uppercase py-2 fw-bold text-white">new season</h1>
-				<a href="#" class="btn mt-3 text-uppercase">buy now</a>
-			</div>
-		</div>
 
-		<button class="carousel-control-prev" type="button" data-bs-target="#header" data-bs-slide="prev">
-			<span class="carousel-control-prev-icon"></span>
-		</button>
-		<button class="carousel-control-next" type="button" data-bs-target="#header" data-bs-slide="next">
-			<span class="carousel-control-next-icon"></span>
-		</button>
-	</header>
-	<!-- end of header -->
+	{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') %}
 
-	<!-- Products -->
-	<section id="collection" class="py-5">
-		<div class="container">
-			<div class="title text-center">
-				<h2 class="position-relative d-inline-block">Top Offers</h2>
+		<body>
+			<div class="container col-md-4 mt-5">
+				{% for flash in app.flashes('Success') %}
+					<p class="alert alert-primary">{{flash}}</p>
+				{% endfor %}
+				{% for flash in app.flashes('Error') %}
+					<p class="alert alert-danger">{{flash}}</p>
+				{% endfor %}
 			</div>
 
-			<div class="row g-0">
-				<div class="d-flex flex-wrap justify-content-center mt-5 filter-button-group">
-					<button type="button" class="btn m-2 text-dark active-filter-btn" data-filter="*">All</button>
-					<button type="button" class="btn m-2 text-dark" data-filter=".best">Best Sellers</button>
-					<button type="button" class="btn m-2 text-dark" data-filter=".feat">Featured</button>
-					<button type="button" class="btn m-2 text-dark" data-filter=".new">New Arrival</button>
+
+			<div class="container mt-5" style="padding: 150px 0">
+				<h1 class="text text-primary text-center">Order list</h1>
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+						Sort By Date Time
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+						<li>
+							<a class="dropdown-item" href="{{path('sort_asc_date')}}">Newest</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{path('sort_desc_date')}}">Oldest</a>
+						</li>
+					</ul>
 				</div>
-
-				<div class="collection-list mt-4 row gx-0 gy-3">
-					{% for product in products %}
-						{% if product.price > 450 %}
-							<div class="col-md-6 col-lg-4 col-xl-3 p-2 best productz-item">
-								<div class="collection-img position-relative ">
-									<div class="productz-img">
-										<img src="{{asset('images/products/' ~ product.image)}}" alt="" class="img-fluid d-block mx-auto">
-										{# <span class="heart-icon">
-											<i class="far fa-heart"></i>
-										</span> #}
-										<div class="row btnz w-100 mx-auto text-center">
-											<a href="{{path('cart_add',{'id':product.id})}}" type="button" class="col-6 py-2 text-decoration-none">
-												<i class="fa fa-cart-plus"></i>
-												Add to Cart
-											</a>
-											<a href="{{path('product_detail', {'id': product.id})}}" type="button" class="col-6 py-2 text-decoration-none">
-												<i class="fa fa-binoculars"></i>
-												View
-											</a>
-										</div>
-									</div>
-									<span class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
+				<table class="table table-borderless main">
+					<thead>
+						<tr class="head">
+							<th scope="col" class="ml-2">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
 								</div>
-								<div class="text-center productz-info p-3">
-									<a href="#" class="d-block text-dark text-decoration-none py-2 productz-name">{{product.name}}</a>
-									<span class="fw-bold productz-price">$ {{product.price}}</span>
-									<div class="rating d-flex mt-1 ratingz">
-										{% set rand = random(2,5) %}
-										{% for i in 1 .. rand %}
-											<span class="text-primary">
-												<i class="fas fa-star"></i>
-											</span>
-										{% endfor %}
-										<span>(25 reviews)</span>
+							</th>
+							<th scope="col">Order ID</th>
+							<th scope="col">Status</th>
+							<th scope="col">Customer</th>
+							<th scope="col">Menu</th>
+							<th scope="col">Order Date</th>
+							<th scope="col">Delivery</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for order in orders %}
+							<tr class="rounded bg-white">
+								<th scope="row">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
 									</div>
-								</div>
-							</div>
-						{% endif %}
-					{% endfor %}
-				</div>
+								</th>
+								<td class="order-color">
+									<a href="{{path('Order_detail', {'id':order.id})}}">{{order.id}}</a>
+								</td>
+								<td>Valid
+									<i class="fas fa-coffin    "></i>
+								</td>
+								<td class="d-flex align-items-center">
+									<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/640px-User_icon_2.svg.png" class="rounded-circle" width="25">
+									<span class="ml-2">{{order.username}}</span>
+								</td>
+
+
+								<td>
+									<a href="{{path('Order_delete', {'id':order.id})}}" class="btn btn-primary btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+										Refuse Order
+									</a>
+								</td>
+								<td>{{order.date | date('d/m/Y')}}</td>
+								<td>
+									{# {% for delivery in order.delivery %} #}
+
+										<a href="{{path('delivery_detail',{'id': order.delivery.id})}}">{{order.delivery.name}}</a>
+
+									{# {% endfor %} #}
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
-		</div>
-	</section>
-	<!-- end of collection -->
-
-	<!-- blogs -->
-	<section id="offers" class="py-5">
-		<div class="container">
-			<div class="row d-flex align-items-center justify-content-center text-center justify-content-lg-start text-lg-start">
-				<div class="offers-content">
-					<span class="text-white">Discount Up To 40%</span>
-					<h2 class="mt-2 mb-4 text-white">Tech-Day Sale Offer!</h2>
-					<a href="#" class="btn">Buy Now</a>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- end of blogs -->
-
-	<!-- blogs -->
-	<section id="blogs" class="py-5">
-		<div class="container">
-			<div class="title text-center py-5">
-				<h2 class="position-relative d-inline-block">Our Latest Blog</h2>
-			</div>
-
-			<div class="row g-3">
-				<div class="card border-0 col-md-6 col-lg-4 bg-transparent my-3">
-					<img src="images/blog_1.jpg" alt="">
-					<div class="card-body px-0">
-						<h4 class="card-title">nothing to say</h4>
-						<p class="card-text mt-3 text-muted">Run Out of money</p>
-						<p class="card-text">
-							<small class="text-muted">
-								<span class="fw-bold">Author:
-								</span>Danchoi
-							</small>
-						</p>
-						<a href="#" class="btn">Read More</a>
-					</div>
-				</div>
-
-				<div class="card border-0 col-md-6 col-lg-4 bg-transparent my-3">
-					<img src="images/blog_2.jpg" alt="">
-					<div class="card-body px-0">
-						<h4 class="card-title">nothing to say</h4>
-						<p class="card-text mt-3 text-muted">Run Out of money</p>
-						<p class="card-text">
-							<small class="text-muted">
-								<span class="fw-bold">Author:
-								</span>Danchoi
-							</small>
-						</p>
-						<a href="#" class="btn">Read More</a>
-					</div>
-				</div>
-
-				<div class="card border-0 col-md-6 col-lg-4 bg-transparent my-3">
-					<img src="images/blog_3.jpg" alt="">
-					<div class="card-body px-0">
-						<h4 class="card-title">nothing to say</h4>
-						<p class="card-text mt-3 text-muted">Run Out of money</p>
-						<p class="card-text">
-							<small class="text-muted">
-								<span class="fw-bold">Author:
-								</span>Danchoi
-							</small>
-						</p>
-						<a href="#" class="btn">Read More</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- end of blogs -->
-
-	<!-- about us -->
-	<section id="about" class="py-5">
-		<div class="container">
-			<div class="row gy-lg-5 align-items-center">
-				<div class="col-lg-6 order-lg-1 text-center text-lg-start">
-					<div class="title pt-3 pb-5">
-						<h2 class="position-relative d-inline-block ms-4">About Us</h2>
-					</div>
-					<p class="lead text-muted">Nothing special to see here.</p>
-					<p>Waste your time and enjoy</p>
-				</div>
-				<div class="col-lg-6 order-lg-0">
-					<img src="images/about_us.jpg" alt="" class="img-fluid">
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- end of about us -->
-
-	<!-- popular -->
-	<section id="popular" class="py-5">
-		<div class="container">
-			<div class="title text-center pt-3 pb-5">
-				<h2 class="position-relative d-inline-block ms-4">Popular Of This Year</h2>
-			</div>
-
-			<div class="row">
-				<div class="col-md-6 col-lg-4 row g-3">
-					<h3 class="fs-5">Top Rated</h3>
-					<div class="d-flex align-items-start justify-content-start">
-						<img src="https://shoptrongnghia.com/wp-content/uploads/2020/06/ps5-o-dia-2.jpg" alt="" class="img-fluid pe-3 w-25">
-						<div>
-							<p class="mb-0">Ps5</p>
-							<span>$ 600</span>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-md-6 col-lg-4 row g-3">
-					<h3 class="fs-5">Best Selling</h3>
-					<div class="d-flex align-items-start justify-content-start">
-						<img src="https://cdn.tgdd.vn/Products/Images/42/255635/xiaomi-12-pro-1-600x600.jpg" alt="" class="img-fluid pe-3 w-25">
-						<div>
-							<p class="mb-0">Xiaomi note 12 pro</p>
-							<span>$ 456.00</span>
-						</div>
-					</div>
-					<div class="d-flex align-items-start justify-content-start">
-						<img src="https://cdn.tgdd.vn/Products/Images/42/226099/samsung-galaxy-z-fold-2-den-200x200.jpg" alt="" class="img-fluid pe-3 w-25">
-						<div>
-							<p class="mb-0">Samsung z fold 2</p>
-							<span>$ 823.00</span>
-						</div>
-					</div>
-					<div class="d-flex align-items-start justify-content-start">
-						<img src="https://macone.vn/wp-content/uploads/2020/11/macbook-pro-silver-m1-2020.jpeg" alt="" class="img-fluid pe-3 w-25">
-						<div>
-							<p class="mb-0">Macbook pro M1</p>
-							<span>$ 1220.00</span>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-md-6 col-lg-4 row g-3">
-					<h3 class="fs-5">On Sale</h3>
-					<div class="d-flex align-items-start justify-content-start">
-						<img src="http://img.websosanh.vn/v2/users/root_product/images/dien-thoai-apple-iphone-11-pro/bmottjctrhabs.jpg" alt="" class="img-fluid pe-3 w-25">
-						<div>
-							<p class="mb-0">Iphone 11 Pro Max</p>
-							<span>$ 650.00</span>
-						</div>
-					</div>
-					<div class="d-flex align-items-start justify-content-start">
-						<img src="https://cdn.tgdd.vn/Products/Images/42/220365/huawei-p40-pro-plus-600x600-1-600x600.jpg" alt="" class="img-fluid pe-3 w-25">
-						<div>
-							<p class="mb-0">huawei P40 Pro</p>
-							<span>$ 520.00</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- end of popular -->
-
-	<!-- newsletter -->
-	<section id="newsletter" class="py-5">
-		<div class="container">
-			<div class="d-flex flex-column align-items-center justify-content-center">
-				<div class="title text-center pt-3 pb-5">
-					<h2 class="position-relative d-inline-block ms-4">Newsletter Subscription</h2>
-				</div>
-
-				<p class="text-center text-muted">Just waste your time</p>
-				<div class="input-group mb-3 mt-3">
-					<input type="text" class="form-control" placeholder="Enter Your Email ...">
-					<button class="btn btn-primary" type="submit">Subscribe</button>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- end of newsletter -->
-	<script>
-		// init Isotope
-		var $grid = $('.collection-list').isotope({});
-		// filter items on button click
-		$('.filter-button-group').on('click', 'button', function () {
-			var filterValue = $(this).attr('data-filter');
-			resetFilterBtns();
-			$(this).addClass('active-filter-btn');
-			$grid.isotope({filter: filterValue});
-		});
-		var filterBtns = $('.filter-button-group').find('button');
-		function resetFilterBtns() {
-			filterBtns.each(function () {
-				$(this).removeClass('active-filter-btn');
-			});
-		}
-	</script>
-	<!-- jquery -->
-	<script src="js/jquery-3.6.0.js"></script>
+		</body>
 	{% endif %}
 {% endblock %}
