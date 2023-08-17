@@ -1,0 +1,17 @@
+{% form_theme brandForm 'bootstrap_5_layout.html.twig' %}
+{% extends "base.html.twig" %}
+{% block body %}
+<style>
+   .brand_add{
+      margin-top:10%;
+      margin-bottom:5%;
+   }
+</style>
+<div class="brand_add">
+<div class="container col-md-6 mt-3 text-center">
+   <h2 class="text text-dark text-center">New brand</h2>
+   <br>
+   {{ form (brandForm) }}
+</div>
+</div>
+{% endblock %}
