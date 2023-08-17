@@ -1,151 +1,23 @@
 {% extends "base.html.twig" %}
 
+{% block title %} Supplier detail {% endblock %}
+
 {% block body %}
-<style>
-    #product_detail {
-        margin-top:10%;
-        margin-bottom:10%;
-    }
-    .col{
-        margin-right:7%;
-    }
-    .wrapper {
-        height: 600px;
-        width: 1300px;
-        margin: 50px auto;
-        border-radius: 7px 7px 7px 7px;
-        padding-top: 3%;
-        padding-left: 6%;
-        padding-right: 16%;
-        -webkit-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
-        -moz-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
-        box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
-        }
-
-        .product-img {
-        float: left;
-        height: 600px;
-        width: 500px;
-        }
-
-        .product-img img {
-        border-radius: 7px 0 0 7px;
-        }
-
-        .product-info {
-        float: left;
-        height: 420px;
-        width: 327px;
-        border-radius: 0 7px 10px 7px;
-        background-color: #ffffff;
-        }
-
-        .product-text {
-        height: 300px;
-        width: 327px;
-        }
-
-        .product-text h1 {
-        padding-top: 52px;
-        font-size: 45px;
-        color: #474747;
-        }
-
-        .product-text h1,
-        .product-price-btn p {
-        font-family: 'Bentham', serif;
-        }
-
-        .product-text h2 {
-        margin: 0 0 10px 0px;
-        font-size: 13px;
-        font-family: 'Raleway', sans-serif;
-        font-weight: 400;
-        text-transform: uppercase;
-        color: #d2d2d2;
-        letter-spacing: 0.2em;
-        }
-
-        .product-text p {
-        height: 125px;
-        font-family: 'Playfair Display', serif;
-        color: #8d8d8d;
-        line-height: 1.7em;
-        font-size: 15px;
-        font-weight: lighter;
-        overflow: hidden;
-        }
-
-        .product-price-btn {
-        height: 103px;
-        width: 327px;
-        position: relative;
-        }
-
-        .product-price-btn p {
-        display: inline-block;
-        position: absolute;
-        
-        height: 50px;
-        font-family: 'Trocchi', serif;
-        font-size: 28px;
-        font-weight: lighter;
-        color: #474747;
-        }
-
-        .product-price-btn .btn {
-        float: right;
-        display: inline-block;
-        height: 50px;
-        width: 176px;
-        margin: 0 40px 0 0px;
-        box-sizing: border-box;
-        border: transparent;
-        border-radius: 60px;
-        font-family: 'Raleway', sans-serif;
-        font-size: 14px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.2em;
-        color: #ffffff;
-        background-color: #9cebd5;
-        
-        cursor: pointer;
-        outline: none;
-        }
-
-        .product-price-btn .btn:hover {
-        background-color: #79b0a1;
-        }
-</style>
-<section id="product_detail">
-    <div class="wrapper">
-        <div class="product-img">
-            <img src="{{asset('images/products/'~product.image)}}" width="400" height = "400">
-        </div>
-        <div class="product-info">
-            <div class="product-text">
-                <h1>{{product.name}}</h1>
-                <br>
-                <h2 class=" text text-dark"><b>Category: 
-                    <a style="text-decoration:none" href="{{path('product_detail_catId', {'catId': product.category.id |default('Not updated yet')})}}">{{product.category.name|default('Not updated yet')}}</a>
-                </b></h2>
-                <h2 class=" text text-dark"><b>Brand: 
-                    <a style="text-decoration:none" href="{{path('product_detail_brandId', {'brandId': product.brand.id |default('Not updated yet')})}}">{{product.brand.name|default('Not updated yet')}}</a>
-                </b></h2>
-                <h2 class=" text text-dark"><b>Supplier: 
-                    <a style="text-decoration:none" href="{{path('supplier_detail', {'id':product.brand.supplier.id|default('Not updated yet')})}}">{{product.brand.supplier|default('Not updated yet')}}</a>
-                </b></h2>
-                
-                <h2>Quantity: {{product.quantity}}</h2>
-                <h2>Date: {{product.date | date('y/m/d')}}</h2>
-                <p>{{product.description}}</p>
-            </div>
-            <div class="product-price-btn">
-                <p> ${{product.price}}</p>
-                <a href="{{path('cart_add',{'id':product.id})}}" class="btn">Buy now</a>
-            </div>
-        </div>
-    </div>
-</section>
+<div class="container col-md-6 mt-5">
+   <div class="row">
+      <div class="col">
+         <img src="{{asset('images/supplier/' ~ supplier.image)}}" width="300" height="400">  
+      </div>
+      <div class="col text-center mt-3">
+         <h1 class="text text-success">{{ supplier.name }}</h1>
+         <h2>Description: {{ supplier.description }}</h2>
+         <h2>Brands: </h2>
+         {# {% for brand in supplier.brands %}
+            <a href="{{ path('brand_detail', {'id' : brand.id })}}">
+              <h4 class="text text-primary">{{ brand.name }}</h4> 
+            </a> 
+         {% endfor %} #}
+      </div>
+   </div>
+</div>
 {% endblock %}
