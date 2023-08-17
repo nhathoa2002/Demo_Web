@@ -1,17 +1,17 @@
-{% form_theme categoryform 'bootstrap_5_layout.html.twig' %}
+{% form_theme deliveryForm 'bootstrap_5_layout.html.twig' %}
 {% extends "base.html.twig" %}
 {% block body %}
 <style>
-   .category_add{
+   .delivery_add{
       margin-top:10%;
       margin-bottom:5%;
    }
 </style>
-<div class="category_add">
-<div class="container col-md-5 mt-5">
-<h1 class="text text-dark text-center">New category</h1>
-<br>
-   {{ form (categoryform) }}
+<div class="delivery_add">
+<div class="container col-md-6 mt-3 text-center">
+   <h2 class="text text-dark text-center">New delivery</h2>
+   <br>
+   {{ form (deliveryForm) }}
 </div>
 </div>
 {% endblock %}
