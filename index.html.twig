@@ -1,303 +1,155 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cart
-{% endblock %}
-
-{% block navbar %}{% endblock %}
-
 {% block body %}
-	<style>
-		{
-			# .example-wrapper {
-				margin: 1em auto;
-				max-width: 800px;
-				width: 95%;
-				font: 18px / 1.5 sans-serif;
-			}
-			.example-wrapper code {
-				background: #F5F5F5;
-				padding: 2px 6px;
-			} #
-		}
-		body {
-			background: #ddd;
-			min-height: 100vh;
-			vertical-align: middle;
-			display: flex;
-			font-family: sans-serif;
-			font-size: 0.8rem;
-			font-weight: bold
-		}
 
-		.title {
-			margin-bottom: 5vh
-		}
+<style>
+.category_admin {
+    margin-top: 10%;
+}
 
-		.card {
-			margin: auto;
-			max-width: 950px;
-			width: 90%;
-			box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-			border-radius: 1rem;
-			border: transparent
-		}
+.table-responsive {
+    margin: 30px 0;
+}
+.table-wrapper {
+    min-width: 1000px;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.table-title {
+    padding-bottom: 10px;
+    margin: 0 0 10px;
+    min-width: 100%;
+}
+.table-title h2 {
+    margin: 8px 0 0;
+    font-size: 22px;
+}
+.search-box {
+    position: relative;        
+    float: right;
+}
+.search-box input {
+    height: 34px;
+    border-radius: 20px;
+    padding-left: 35px;
+    border-color: #ddd;
+    box-shadow: none;
+}
+.search-box input:focus {
+    border-color: #3FBAE4;
+}
+.search-box i {
+    color: #a0a5b1;
+    position: absolute;
+    font-size: 19px;
+    top: 8px;
+    left: 10px;
+}
+table.table tr th, table.table tr td {
+    border-color: #e9e9e9;
+}
+table.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #fcfcfc;
+}
+table.table-striped.table-hover tbody tr:hover {
+    background: #f5f5f5;
+}
+table.table th i {
+    font-size: 13px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+table.table td:last-child {
+    width: 130px;
+}
+table.table td a {
+    color: #a0a5b1;
+    display: inline-block;
+    margin: 0 5px;
+}
+table.table td a.view {
+    color: #03A9F4;
+}
+table.table td a.edit {
+    color: #FFC107;
+}
+table.table td a.delete {
+    color: #E34724;
+}
+table.table td i {
+    font-size: 19px;
+}    
+</style>
+<div class="category_admin">
+    {# page for admin #}
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="container col-md-4 mt-5">
+    {% for flash in app.flashes('Success') %}
+        <p class="alert alert-primary">{{flash}}</p>
+    {% endfor %}
+    {% for flash in app.flashes('Error') %}
+        <p class="alert alert-danger">{{flash}}</p>
+    {% endfor %}
+    </div>
+    <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-8"><h2>Category List (Count: {{count}}</h2></div>
+                        <div class="col-sm-3">
+                            <div class="search-box">
+                            <form action="{{ path('category_search') }}" method="post">
+                                <i class="fa fa-search">&#xE8B6;</i>
+                                <input type="text" name="word" class="form-control" placeholder="Search category ">
+                            </form>
+                            </div>
+                        </div>
+                        <div class="col-sm-1"><a href="{{path('category_add')}}" class="btn btn-center" id="btnAdd"><i class="fa fa-plus">&#xE8B6;</i></a></div>
+                        
+                    </div>
+                </div>
+                <table class="table table-striped table-hover table-bordered">
+                    <thead style="text-align: center; vertical-align: middle;">
+                        <tr>
+                            <th>ID</th>
+                            <th width="200"><a href="{{path('sort_asc_category')}}"><i class="fa fa-angle-up"></i></a>
+                                 Category name 
+                                <a href="{{path('sort_desc_category')}}"><i class="fa fa-angle-down"></i></a></th>
+                            <th>Image</th>
+                            
+                            <th>Description</th>
+                            <th>Products</th>
+                            <th>Menu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in categories %}
+                        <tr>
+                            <td style="text-align:center;">{{c.id}}</td>
+                            <td style="text-align:center;">{{c.name}}</td>
+                            <td><img src="{{asset('images/category/' ~ c.image)}}" width="100" height="100"></td>
 
-		@media(max-width:767px) {
-			.card {
-				margin: 3vh auto
-			}
-		}
-
-		.cart {
-			background-color: #fff;
-			padding: 4vh 5vh;
-			border-bottom-left-radius: 1rem;
-			border-top-left-radius: 1rem
-		}
-
-		@media(max-width:767px) {
-			.cart {
-				padding: 4vh;
-				border-bottom-left-radius: unset;
-				border-top-right-radius: 1rem
-			}
-		}
-
-		.summary {
-			background-color: #ddd;
-			border-top-right-radius: 1rem;
-			border-bottom-right-radius: 1rem;
-			padding: 4vh;
-			color: rgb(65, 65, 65)
-		}
-
-		@media(max-width:767px) {
-			.summary {
-				border-top-right-radius: unset;
-				border-bottom-left-radius: 1rem
-			}
-		}
-
-		.summary .col-2 {
-			padding: 0
-		}
-
-		.summary .col-10 {
-			padding: 0
-		}
-
-		.row {
-			margin: 0
-		}
-
-		.title b {
-			font-size: 1.5rem
-		}
-
-		.main {
-			margin: 0;
-			padding: 2vh 0;
-			width: 100%
-		}
-
-		.col-2,
-		.col {
-			padding: 0 1vh
-		}
-
-		a {
-			padding: 0 1vh
-		}
-
-		.close {
-			margin-left: auto;
-			font-size: 0.7rem
-		}
-
-		img {
-			width: 3.5rem
-		}
-
-		.back-to-shop {
-			margin-top: 4.5rem
-		}
-
-		h5 {
-			margin-top: 4vh
-		}
-
-		hr {
-			margin-top: 1.25rem
-		}
-
-		form {
-			padding: 2vh 0
-		}
-
-		select {
-			border: 1px solid rgba(0, 0, 0, 0.137);
-			padding: 1.5vh 1vh;
-			margin-bottom: 4vh;
-			outline: none;
-			width: 100%;
-			background-color: rgb(247, 247, 247)
-		}
-
-		input {
-			border: 1px solid rgba(0, 0, 0, 0.137);
-			padding: 1vh;
-			margin-bottom: 4vh;
-			outline: none;
-			width: 100%;
-			background-color: rgb(247, 247, 247)
-		}
-
-		input:focus::-webkit-input-placeholder {
-			color: transparent
-		}
-
-		.btn {
-			background-color: #000;
-			border-color: #000;
-			color: white;
-			font-size: 0.7rem;
-			margin-top: 4vh;
-			padding: 1vh;
-			border-radius: 10px
-		}
-
-		.btn:focus {
-			box-shadow: none;
-			outline: none;
-			box-shadow: none;
-			color: white;
-			-webkit-box-shadow: none;
-			-webkit-user-select: none;
-			transition: none
-		}
-
-		.btn:hover {
-			color: white
-		}
-
-		a {
-			color: black
-		}
-
-		a:hover {
-			color: black;
-			text-decoration: none
-		}
-
-		#code {
-			background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
-			background-repeat: no-repeat;
-			background-position-x: 95%;
-			background-position-y: center
-		}
-	</style>
-
-
-	<div class="card">
-		<div class="row">
-			<div class="col-md-8 cart">
-				<div class="title">
-					<div class="row">
-						<div class="col">
-							<h4>
-								<b>Shopping Cart</b>
-							</h4>
-						</div>
-						<div class="col align-self-center text-right text-muted"></div>
-					</div>
-				</div>
-				{% if items | length > 0 %}
-					{% for item in items %}
-						<div class="row border-top border-bottom">
-							<div class="row main align-items-center">
-								<div class="col-2"><img class="img-fluid" src="{{asset('images/products/' ~ item.product.image)}}"></div>
-								<div
-									class="col">
-									{# {% if item.product.category.name != null %}
-																			<div class="row text-muted">{{item.product.category.name}}</div>
-																		{% endif %} #}
-									<div class="row">{{item.product.name}}</div>
-								</div>
-								<div class="col">
-									<a href="{{path('cart_delete', {'id':item.product.id})}}">
-										<i class="fa fa-minus-circle" aria-hidden="true"></i>
-									</a>
-									<a href="#" class="border">{{item.quantity}}</a>
-									<a href="{{path('cart_add', {'id':item.product.id})}}">
-										<i class="fa fa-plus-circle" aria-hidden="true"></i>
-									</a>
-								</div>
-								<div class="col">$
-									{{item.product.price * item.quantity}}
-									<span class="close">
-										<a href="{{path('cart_remove', {'id':item.product.id})}}">
-											<i class="fa fa-trash" aria-hidden="true"></i>
-										</a>
-									</span>
-								</div>
-
-							</div>
-						</div>
-					{% endfor %}
-					<div class="back-to-shop">
-						<a href="{{path('product_index')}}" class="btn btn-primary cart-btn-transform m-3 border rounded" data-abc="true">Continue shopping</a>
-					</div>
-				</div>
-				<div class="col-md-4 summary">
-					<div>
-						<h5>
-							<b>Summary</b>
-						</h5>
-					</div>
-					<hr>
-					<div class="row">
-						<div class="col" style="padding-left:0;">Current Price:</div>
-						<div class="col text-right">$
-							{{total}}</div>
-					</div>
-					<form action="{{path('order_add')}}" method="POST">
-						<p>SHIPPING</p>
-						<select id="delivery" name="delivery">
-							{% for delivery in delivery %}
-								<option class="text-muted" value="{{delivery.name}}">{{delivery.name}}</option>
-							{% endfor %}
-						</select>
-						{# <p>GIVE CODE</p>
-												<input id="code" placeholder="Enter your code"> #}
-						<div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-							<div class="col">TOTAL PRICE</div>
-							<div class="col text-right">$
-								{{total}}</div>
-						</div>
-						<button type="submit" href="{{path('order_add')}}" class="btn btn-primary cart-btn-transform" name="submit" data-abc="true">ORDER NOW</button>
-					</form>
-
-				</div>
-			{% else %}
-				<div class="row">
-					<div class="col-md-12">
-						<div class="card">
-							<div class="card-body cart">
-								<div class="col-sm-12 empty-cart-cls text-center">
-									<img src="https://www.pngall.com/wp-content/uploads/5/Shopping-Cart-PNG-Image-HD.png" width="130" height="130" class="img-fluid mb-4 mr-3">
-									<h3>
-										<strong>Your Cart is Empty</strong>
-									</h3>
-									<h4>Add something to make you happy :)</h4>
-									<a href="{{ path('homepage')}}" class="btn btn-primary cart-btn-transform m-3" data-abc="true">Continue shopping</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			{% endif %}
-		</div>
-	</div>
-
+                            <td>{{c.description}}</td>
+                            <td>
+                            {% for product in c.products %}
+                               <p>- {{product.name}}</p>
+                            {% endfor %}
+                            </td>
+                            <td style="text-align:center;">
+                                <a href="{{path('category_edit', {'id':c.id})}}" class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i></a>
+                                <a href="{{path('category_delete', {'id':c.id})}}" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}       
+                    </tbody>
+                </table>
+            </div>
+        </div>  
+    </div> 
+    {# page for user #}
+    
+    {% endif %}
+</div>
 {% endblock %}
-{% block footer %}{% endblock %}
