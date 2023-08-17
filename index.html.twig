@@ -1,152 +1,99 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}User Information{% endblock %}
 
 {% block body %}
+
 <style>
-	.supplier_admin {
-		margin-top: 10%;
-	}
-
-	.table-responsive {
-		margin: 30px 0;
-	}
-	.table-wrapper {
-		min-width: 1000px;
-		background: #fff;
-		padding: 20px;
-		box-shadow: 0 1px 1px rgba(0,0,0,.05);
-	}
-	.table-title {
-		padding-bottom: 10px;
-		margin: 0 0 10px;
-		min-width: 100%;
-	}
-	.table-title h2 {
-		margin: 8px 0 0;
-		font-size: 22px;
-	}
-	.search-box {
-		position: relative;        
-		float: right;
-	}
-	.search-box input {
-		height: 34px;
-		border-radius: 20px;
-		padding-left: 35px;
-		border-color: #ddd;
-		box-shadow: none;
-	}
-	.search-box input:focus {
-		border-color: #3FBAE4;
-	}
-	.search-box i {
-		color: #a0a5b1;
-		position: absolute;
-		font-size: 19px;
-		top: 8px;
-		left: 10px;
-	}
-	table.table tr th, table.table tr td {
-		border-color: #e9e9e9;
-	}
-	table.table-striped tbody tr:nth-of-type(odd) {
-		background-color: #fcfcfc;
-	}
-	table.table-striped.table-hover tbody tr:hover {
-		background: #f5f5f5;
-	}
-	table.table th i {
-		font-size: 13px;
-		margin: 0 5px;
-		cursor: pointer;
-	}
-	table.table td:last-child {
-		width: 130px;
-	}
-	table.table td a {
-		color: #a0a5b1;
-		display: inline-block;
-		margin: 0 5px;
-	}
-	table.table td a.view {
-		color: #03A9F4;
-	}
-	table.table td a.edit {
-		color: #FFC107;
-	}
-	table.table td a.delete {
-		color: #E34724;
-	}
-	table.table td i {
-		font-size: 19px;
-	}    
+.profile{
+    margin-top:15%;
+}
+.profile .container {
+  width: 400px;
+  margin: 120px auto 120px;
+  background-color: #eeeeee;
+  padding: 0 20px 20px;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.075);
+  -webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.075);
+  -moz-box-shadow: 0 2px 5px rgba(0,0,0,0.075);
+  text-align: center;
+}
+.profile .container:hover .avatar-flip {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+.profile .container:hover .avatar-flip img:first-child {
+  opacity: 0;
+}
+.profile .container:hover .avatar-flip img:last-child {
+  opacity: 1;
+}
+.avatar-flip {
+  border-radius: 100px;
+  overflow: hidden;
+  height: 150px;
+  width: 150px;
+  position: relative;
+  margin: auto;
+  top: -60px;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 0 13px #f0f0f0;
+  -webkit-box-shadow: 0 0 0 13px #f0f0f0;
+  -moz-box-shadow: 0 0 0 13px #f0f0f0;
+}
+.avatar-flip img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 100px;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+}
+.avatar-flip img:first-child {
+  z-index: 1;
+}
+.avatar-flip img:last-child {
+  z-index: 0;
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  opacity: 0;
+}
+.profile h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+  text-transform: uppercase;
+}
+.profile h4 {
+  font-size: 13px;
+  color: #00baff;
+  letter-spacing: 1px;
+  margin-bottom: 25px
+}
+.profile p {
+  font-size: 16px;
+  line-height: 26px;
+  margin-bottom: 20px;
+  color: #666;
+}
 </style>
-	
-<div class="supplier_admin">
-    {# page for admin #}
-    {% if is_granted('ROLE_ADMIN') %}
-
-	<div class="container col-md-4 mt-5">
-    {% for flash in app.flashes('Success') %}
-        <p class="alert alert-primary">{{flash}}</p>
-    {% endfor %}
-    {% for flash in app.flashes('Error') %}
-        <p class="alert alert-danger">{{flash}}</p>
-    {% endfor %}
+<div class="profile">
+    <div class="container">
+    <div class="avatar-flip">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwD89zs3pxlYJI4G48DyAW-zBZ-ZCOO52zofwvQnHrZrJ8sCnTx5_UD9P69IvQAayW0C8&usqp=CAU" height="150" width="150">
+        <img src="http://i1112.photobucket.com/albums/k497/animalsbeingdicks/abd-3-12-2015.gif~original" height="150" width="150">
     </div>
-    <div class="container-xl">
-        <div class="table-responsive">
-            <div class="table-wrapper">
-                <div class="table-title">
-                    <div class="row">
-                        <div class="col-sm-8"><h2>Supplier List</h2></div>
-                        <div class="col-sm-3">
-                            <div class="search-box">
-                            <form action="{{ path('supplier_search') }}" method="post">
-                                <i class="fa fa-search">&#xE8B6;</i>
-                                <input type="text" name="word" class="form-control" placeholder="Search supplier ">
-                            </form>
-                            </div>
-                        </div>
-                        <div class="col-sm-1"><a href="{{path('supplier_add')}}" class="btn btn-center" id="btnAdd"><i class="fa fa-plus">&#xE8B6;</i></a></div>
-                        
-                    </div>
-                </div>
-                <table class="table table-striped table-hover table-bordered">
-                    <thead style="text-align: center; vertical-align: middle;">
-                        <tr>
-                            <th>ID</th>
-                            <th width="200">
-                                 Supplier name </th>
-                            <th>Supplier Logo</th>
-                            <th>Description</th>
-							<th>Brands</th>
-                            <th>Menu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for s in suppliers %}
-                        <tr>
-                            <td style="text-align:center;">{{s.id}}</td>
-                            <td width="200" style="text-align:center;">{{s.name}}</td>
-                            <td width="100"><img src="{{asset('images/supplier/' ~ s.image)}}" width="100" height="100"></td>
-                            <td width="500">{{s.description}}</td>
-                            <td>
-                            {% for b in s.brands %}
-                                <p>- {{b.name}}</p>
-                            {% endfor %}
-                            </td>
-                            <td style="text-align:center;">
-                                <a href="{{path('supplier_edit', {'id':s.id})}}" class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i></a>
-                                <a href="{{path('supplier_delete', {'id':s.id})}}" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-trash"></i></a>
-                            </td>
-                        </tr>
-                        {% endfor %}       
-                    </tbody>
-                </table>
-            </div>
-        </div>  
-    </div> 
-    {% endif %}
+    <h2>{{app.user.username}}</h2>
+    <h4>{{app.user.gmail}}</h4>
+    <p>Gender: {{app.user.Gender}}</p>
+    <p>Contact: {{app.user.phonenumber}}</p>
+    </div>
 </div>
 {% endblock %}
